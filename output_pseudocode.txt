@@ -1,0 +1,55 @@
+class Users:
+    UserID: integer
+    Imie: string
+    Nazwisko: string
+    Email: string
+    Haslo: string
+    Rola: string
+class Location:
+    LocationID: integer
+    Miasto: string
+    Kraj: string
+    Adres: string
+    Pojemnosc: integer
+    RodzajMiejsc: string
+class Events:
+    EventID: integer
+    NazwaWydarzenia: string
+    Data: date
+    MiejsceID: Location
+    Opis: text
+    LimitMiejsc: integer
+class EventCategories:
+    CategoryID: integer
+    NazwaKategorii: string
+class EventCategoryAssignment:
+    AssignmentID: integer
+    EventID: Events
+    CategoryID: EventCategories
+class Discounts:
+    DiscountID: integer
+    NazwaZnizki: string
+    KwotaZnizki: decimal
+    ProcentZnizki: decimal
+class Tickets:
+    TicketID: integer
+    UserID: Users
+    EventID: Events
+    DataZakupu: datetime
+    Status: string
+    ZnizkaID: Discounts
+class Payments:
+    PaymentID: integer
+    UserID: Users
+    Kwota: decimal
+    DataPlatnosci: datetime
+    MetodaPlatnosci: string
+class EventRatings:
+    RatingID: integer
+    EventID: Events
+    Ocena: decimal
+    Komentarz: text
+    UserID: Users
+class Administrators:
+    AdminID: integer
+    UserID: Users

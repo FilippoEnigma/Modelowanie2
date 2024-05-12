@@ -1,0 +1,23 @@
+// UML Diagram
+digraph {
+	Users [label="Users|UserID: integer\l\lImie: string\l\lNazwisko: string\l\lEmail: string\l\lHaslo: string\l\lRola: string\l" shape=record]
+	Location [label="Location|LocationID: integer\l\lMiasto: string\l\lKraj: string\l\lAdres: string\l\lPojemnosc: integer\l\lRodzajMiejsc: string\l" shape=record]
+	Events [label="Events|EventID: integer\l\lNazwaWydarzenia: string\l\lData: date\l\lOpis: text\l\lLimitMiejsc: integer\l" shape=record]
+	Events -> Location [label=MiejsceID arrowhead=normal]
+	EventCategories [label="EventCategories|CategoryID: integer\l\lNazwaKategorii: string\l" shape=record]
+	EventCategoryAssignment [label="EventCategoryAssignment|AssignmentID: integer\l" shape=record]
+	EventCategoryAssignment -> Events [label=EventID arrowhead=normal]
+	EventCategoryAssignment -> EventCategories [label=CategoryID arrowhead=normal]
+	Discounts [label="Discounts|DiscountID: integer\l\lNazwaZnizki: string\l\lKwotaZnizki: decimal\l\lProcentZnizki: decimal\l" shape=record]
+	Tickets [label="Tickets|TicketID: integer\l\lDataZakupu: datetime\l\lStatus: string\l" shape=record]
+	Tickets -> Users [label=UserID arrowhead=normal]
+	Tickets -> Events [label=EventID arrowhead=normal]
+	Tickets -> Discounts [label=ZnizkaID arrowhead=normal]
+	Payments [label="Payments|PaymentID: integer\l\lKwota: decimal\l\lDataPlatnosci: datetime\l\lMetodaPlatnosci: string\l" shape=record]
+	Payments -> Users [label=UserID arrowhead=normal]
+	EventRatings [label="EventRatings|RatingID: integer\l\lOcena: decimal\l\lKomentarz: text\l" shape=record]
+	EventRatings -> Events [label=EventID arrowhead=normal]
+	EventRatings -> Users [label=UserID arrowhead=normal]
+	Administrators [label="Administrators|AdminID: integer\l" shape=record]
+	Administrators -> Users [label=UserID arrowhead=normal]
+}
