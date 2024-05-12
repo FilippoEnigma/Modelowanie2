@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metamodel>
+    <entities>
+        <entity name="Users">
+            <attributes>
+                <attribute name="UserID" type="integer" primaryKey="true"/>
+                <attribute name="Imie" type="string"/>
+                <attribute name="Nazwisko" type="string"/>
+                <attribute name="Email" type="string"/>
+                <attribute name="Haslo" type="string"/>
+                <attribute name="Rola" type="string"/>
+            </attributes>
+        </entity>
+        <entity name="Location">
+            <attributes>
+                <attribute name="LocationID" type="integer" primaryKey="true"/>
+                <attribute name="Miasto" type="string"/>
+                <attribute name="Kraj" type="string"/>
+                <attribute name="Adres" type="string"/>
+                <attribute name="Pojemnosc" type="integer"/>
+                <attribute name="RodzajMiejsc" type="string"/>
+            </attributes>
+        </entity>
+        <entity name="Events">
+            <attributes>
+                <attribute name="EventID" type="integer" primaryKey="true"/>
+                <attribute name="NazwaWydarzenia" type="string"/>
+                <attribute name="Data" type="date"/>
+                <attribute name="MiejsceID" type="integer" foreignKey="true" references="Location"/>
+                <attribute name="Opis" type="text"/>
+                <attribute name="LimitMiejsc" type="integer"/>
+            </attributes>
+        </entity>
+        <entity name="EventCategories">
+            <attributes>
+                <attribute name="CategoryID" type="integer" primaryKey="true"/>
+                <attribute name="NazwaKategorii" type="string"/>
+            </attributes>
+        </entity>
+        <entity name="EventCategoryAssignment">
+            <attributes>
+                <attribute name="AssignmentID" type="integer" primaryKey="true"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
+                <attribute name="CategoryID" type="integer" foreignKey="true" references="EventCategories"/>
+            </attributes>
+        </entity>
+        <entity name="Discounts">
+            <attributes>
+                <attribute name="DiscountID" type="integer" primaryKey="true"/>
+                <attribute name="NazwaZnizki" type="string"/>
+                <attribute name="KwotaZnizki" type="decimal"/>
+                <attribute name="ProcentZnizki" type="decimal"/>
+            </attributes>
+        </entity>
+        <entity name="Tickets">
+            <attributes>
+                <attribute name="TicketID" type="integer" primaryKey="true"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
+                <attribute name="DataZakupu" type="datetime"/>
+                <attribute name="Status" type="string"/>
+                <attribute name="ZnizkaID" type="integer" foreignKey="true" references="Discounts"/>
+            </attributes>
+        </entity>
+        <entity name="Payments">
+            <attributes>
+                <attribute name="PaymentID" type="integer" primaryKey="true"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+                <attribute name="Kwota" type="decimal"/>
+                <attribute name="DataPlatnosci" type="datetime"/>
+                <attribute name="MetodaPlatnosci" type="string"/>
+            </attributes>
+        </entity>
+        <entity name="EventRatings">
+            <attributes>
+                <attribute name="RatingID" type="integer" primaryKey="true"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
+                <attribute name="Ocena" type="decimal"/>
+                <attribute name="Komentarz" type="text"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+            </attributes>
+        </entity>
+        <entity name="Administrators">
+            <attributes>
+                <attribute name="AdminID" type="integer" primaryKey="true"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+            </attributes>
+        </entity>
+    </entities>
+</metamodel>
