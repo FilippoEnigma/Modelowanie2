@@ -26,7 +26,7 @@
                 <attribute name="EventID" type="integer" primaryKey="true"/>
                 <attribute name="NazwaWydarzenia" type="string"/>
                 <attribute name="Data" type="date"/>
-                <attribute name="MiejsceID" type="integer" foreignKey="true" references="Location"/>
+                <attribute name="MiejsceID" type="integer" foreignKey="true" references="Location" min="1" max="1"/>
                 <attribute name="Opis" type="text"/>
                 <attribute name="LimitMiejsc" type="integer"/>
             </attributes>
@@ -40,8 +40,8 @@
         <entity name="EventCategoryAssignment">
             <attributes>
                 <attribute name="AssignmentID" type="integer" primaryKey="true"/>
-                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
-                <attribute name="CategoryID" type="integer" foreignKey="true" references="EventCategories"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events" min="1" max="*"/>
+                <attribute name="CategoryID" type="integer" foreignKey="true" references="EventCategories" min="1" max="*"/>
             </attributes>
         </entity>
         <entity name="Discounts">
@@ -55,17 +55,17 @@
         <entity name="Tickets">
             <attributes>
                 <attribute name="TicketID" type="integer" primaryKey="true"/>
-                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
-                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users" min="1" max="1"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events" min="1" max="1"/>
                 <attribute name="DataZakupu" type="datetime"/>
                 <attribute name="Status" type="string"/>
-                <attribute name="ZnizkaID" type="integer" foreignKey="true" references="Discounts"/>
+                <attribute name="ZnizkaID" type="integer" foreignKey="true" references="Discounts" min="0" max="1"/>
             </attributes>
         </entity>
         <entity name="Payments">
             <attributes>
                 <attribute name="PaymentID" type="integer" primaryKey="true"/>
-                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users" min="1" max="*"/>
                 <attribute name="Kwota" type="decimal"/>
                 <attribute name="DataPlatnosci" type="datetime"/>
                 <attribute name="MetodaPlatnosci" type="string"/>
@@ -74,16 +74,16 @@
         <entity name="EventRatings">
             <attributes>
                 <attribute name="RatingID" type="integer" primaryKey="true"/>
-                <attribute name="EventID" type="integer" foreignKey="true" references="Events"/>
+                <attribute name="EventID" type="integer" foreignKey="true" references="Events" min="1" max="*"/>
                 <attribute name="Ocena" type="decimal"/>
                 <attribute name="Komentarz" type="text"/>
-                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users" min="1" max="*"/>
             </attributes>
         </entity>
         <entity name="Administrators">
             <attributes>
                 <attribute name="AdminID" type="integer" primaryKey="true"/>
-                <attribute name="UserID" type="integer" foreignKey="true" references="Users"/>
+                <attribute name="UserID" type="integer" foreignKey="true" references="Users" min="1" max="1"/>
             </attributes>
         </entity>
     </entities>

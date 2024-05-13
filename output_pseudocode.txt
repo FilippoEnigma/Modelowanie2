@@ -1,55 +1,55 @@
 class Users:
-    UserID: integer
-    Imie: string
-    Nazwisko: string
-    Email: string
-    Haslo: string
-    Rola: string
+    UserID: integer (1..1)
+    Imie: string (1..1)
+    Nazwisko: string (1..1)
+    Email: string (1..1)
+    Haslo: string (1..1)
+    Rola: string (1..1)
 class Location:
-    LocationID: integer
-    Miasto: string
-    Kraj: string
-    Adres: string
-    Pojemnosc: integer
-    RodzajMiejsc: string
+    LocationID: integer (1..1)
+    Miasto: string (1..1)
+    Kraj: string (1..1)
+    Adres: string (1..1)
+    Pojemnosc: integer (1..1)
+    RodzajMiejsc: string (1..1)
 class Events:
-    EventID: integer
-    NazwaWydarzenia: string
-    Data: date
-    MiejsceID: Location
-    Opis: text
-    LimitMiejsc: integer
+    EventID: integer (1..1)
+    NazwaWydarzenia: string (1..1)
+    Data: date (1..1)
+    MiejsceID: Location (1..1)
+    Opis: text (1..1)
+    LimitMiejsc: integer (1..1)
 class EventCategories:
-    CategoryID: integer
-    NazwaKategorii: string
+    CategoryID: integer (1..1)
+    NazwaKategorii: string (1..1)
 class EventCategoryAssignment:
-    AssignmentID: integer
-    EventID: Events
-    CategoryID: EventCategories
+    AssignmentID: integer (1..1)
+    EventID: Events (1..n)
+    CategoryID: EventCategories (1..n)
 class Discounts:
-    DiscountID: integer
-    NazwaZnizki: string
-    KwotaZnizki: decimal
-    ProcentZnizki: decimal
+    DiscountID: integer (1..1)
+    NazwaZnizki: string (1..1)
+    KwotaZnizki: decimal (1..1)
+    ProcentZnizki: decimal (1..1)
 class Tickets:
-    TicketID: integer
-    UserID: Users
-    EventID: Events
-    DataZakupu: datetime
-    Status: string
-    ZnizkaID: Discounts
+    TicketID: integer (1..1)
+    UserID: Users (1..1)
+    EventID: Events (1..1)
+    DataZakupu: datetime (1..1)
+    Status: string (1..1)
+    ZnizkaID: Discounts (0..1)
 class Payments:
-    PaymentID: integer
-    UserID: Users
-    Kwota: decimal
-    DataPlatnosci: datetime
-    MetodaPlatnosci: string
+    PaymentID: integer (1..1)
+    UserID: Users (1..n)
+    Kwota: decimal (1..1)
+    DataPlatnosci: datetime (1..1)
+    MetodaPlatnosci: string (1..1)
 class EventRatings:
-    RatingID: integer
-    EventID: Events
-    Ocena: decimal
-    Komentarz: text
-    UserID: Users
+    RatingID: integer (1..1)
+    EventID: Events (1..n)
+    Ocena: decimal (1..1)
+    Komentarz: text (1..1)
+    UserID: Users (1..n)
 class Administrators:
-    AdminID: integer
-    UserID: Users
+    AdminID: integer (1..1)
+    UserID: Users (1..1)
