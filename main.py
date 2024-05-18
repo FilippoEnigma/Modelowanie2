@@ -1,17 +1,54 @@
+import os
 from xml_parser import parse_xml
 from ecore_model import create_ecore_model
 from uml_diagram import generate_uml_diagram
 from pseudocode_generator import generate_pseudocode
 
 def main():
-    root = parse_xml('metamodel.xml')
-    entities = root.findall('.//entity')
-    ecore_package = create_ecore_model(entities)
-    diagram = generate_uml_diagram(ecore_package)
-    diagram.render('uml_diagram', view=True)
-    pseudocode = generate_pseudocode(ecore_package)
-    with open('output_pseudocode.txt', 'w') as f:
-        f.write(pseudocode)
+    """
+    Główna funkcja programu. Parsuje plik XML z metamodelu, tworzy model Ecore,
+    generuje diagram UML i pseudokod, a następnie zapisuje wyniki do plików.
+    """
+    xml_file = 'metamodel.xml'
+    diagram_file = 'uml_diagram'
+    pseudocode_file = 'output_pseudocode.txt'
+
+    try:
+        # Parsowanie pliku XML
+        root = parse_xml(xml_file)
+        if root is None:
+            raise ValueError("Root element not found in the XML file.")
+
+        # Znajdowanie encji w pliku XML
+        entities = root.findall('.//entity')
+        if not entities:
+            raise ValueError("No entities found in the XML file.")
+
+        # Tworzenie modelu Ecore
+        ecore_package = create_ecore_model(entities)
+
+        # Generowanie diagramu UML
+        diagram = generate_uml_diagram(ecore_package)
+        diagram_path = os.path.join(os.getcwd(), diagram_file)
+        diagram.render(diagram_path, view=True)
+
+        # Generowanie pseudokodu
+        pseudocode = generate_pseudocode(ecore_package)
+        pseudocode_path = os.path.join(os.getcwd(), pseudocode_file)
+        with open(pseudocode_path, 'w') as f:
+            f.write(pseudocode)
+
+        print(f"UML diagram saved to {diagram_path}.")
+        print(f"Pseudocode saved to {pseudocode_path}.")
+
+    except FileNotFoundError as e:
+        print(f"Error: {e}")
+    except ValueError as e:
+        print(f"Error: {e}")
+    except PermissionError as e:
+        print(f"Permission error: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 if __name__ == "__main__":
     main()
