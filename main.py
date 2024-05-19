@@ -1,6 +1,6 @@
 import os
 from xml_parser import parse_xml
-from ecore_model import create_ecore_model
+from ecore_model import create_ecore_model, save_ecore_model_to_xmi
 from uml_diagram import generate_uml_diagram
 from pseudocode_generator import generate_pseudocode
 
@@ -12,6 +12,7 @@ def main():
     xml_file = 'metamodel.xml'
     diagram_file = 'uml_diagram'
     pseudocode_file = 'output_pseudocode.txt'
+    xmi_file = 'model.xmi'
 
     try:
         # Parsowanie pliku XML
@@ -27,6 +28,9 @@ def main():
         # Tworzenie modelu Ecore
         ecore_package = create_ecore_model(entities)
 
+        # Zapisywanie modelu Ecore do pliku XMI
+        save_ecore_model_to_xmi(ecore_package, xmi_file)
+
         # Generowanie diagramu UML
         diagram = generate_uml_diagram(ecore_package)
         diagram_path = os.path.join(os.getcwd(), diagram_file)
@@ -40,6 +44,7 @@ def main():
 
         print(f"UML diagram saved to {diagram_path}.")
         print(f"Pseudocode saved to {pseudocode_path}.")
+        print(f"XMI model saved to {xmi_file}.")
 
     except FileNotFoundError as e:
         print(f"Error: {e}")

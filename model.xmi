@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<ecore:EPackage xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="myPackage" xmi:version="2.0">
+  <eClassifiers xsi:type="ecore:EClass" name="Users">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="UserID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Imie" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Nazwisko" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Email" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Haslo" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Rola" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Location">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LocationID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Miasto" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Kraj" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Adres" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Pojemnosc" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RodzajMiejsc" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Events">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="EventID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NazwaWydarzenia" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Data" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="MiejsceID" eType="#//Location" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Opis" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LimitMiejsc" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventCategories">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="CategoryID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NazwaKategorii" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventCategoryAssignment">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AssignmentID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EventID" eType="#//Events" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="CategoryID" eType="#//EventCategories" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Discounts">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DiscountID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="NazwaZnizki" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="KwotaZnizki" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="ProcentZnizki" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Tickets">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="TicketID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UserID" eType="#//Users" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EventID" eType="#//Events" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataZakupu" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Status" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ZnizkaID" eType="#//Discounts"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Payments">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="PaymentID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UserID" eType="#//Users" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Kwota" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="DataPlatnosci" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="MetodaPlatnosci" eType="" lowerBound="1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EventRatings">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="RatingID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="EventID" eType="#//Events" lowerBound="1" upperBound="-1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Ocena" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Komentarz" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UserID" eType="#//Users" lowerBound="1" upperBound="-1"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Administrators">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="AdminID" eType="" lowerBound="1"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="UserID" eType="#//Users" lowerBound="1"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,5 +1,5 @@
 import pyecore.ecore as Ecore
-
+from pyecore.resources import ResourceSet, URI
 
 def create_ecore_model(entities):
     # Tworzenie głównego pakietu modelu
@@ -57,3 +57,9 @@ def create_ecore_model(entities):
                         eattribute.isID = True  # Oznaczenie atrybutu jako klucz główny
 
     return package
+
+def save_ecore_model_to_xmi(package, file_path):
+    resource_set = ResourceSet()
+    resource = resource_set.create_resource(URI(file_path))
+    resource.append(package)
+    resource.save()
