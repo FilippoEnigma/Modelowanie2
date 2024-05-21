@@ -1,0 +1,61 @@
+Aby zrealizować zadanie przedstawione w instrukcji, postępuj zgodnie z poniższymi krokami:
+
+### Zadanie 1
+
+1. **Utwórz projekt Ecore Modeling Project:**
+   - Otwórz Eclipse i wybierz `File > New > Project...`
+   - Wybierz `Ecore Modeling Project` i kliknij `Next`.
+   - Nadaj nazwę swojemu projektowi, np. "PetriNetModel" i kliknij `Finish`.
+
+2. **Zbuduj metamodel:**
+   - W nowym projekcie utwórz plik `.ecore`:
+     - Kliknij prawym przyciskiem myszy na projekt, wybierz `New > Other...`
+     - Wybierz `Ecore Model` i kliknij `Next`.
+     - Nadaj nazwę plikowi, np. "PetriNet.ecore" i kliknij `Finish`.
+   - Otwórz plik `.ecore` w edytorze Ecore.
+   - Dodaj następujące klasyfikatory i atrybuty:
+     - **Class**: PetriNet
+       - Dodaj `name` jako atrybut typu `EString`.
+     - **Class**: Place
+       - Dodaj `name` jako atrybut typu `EString`.
+       - Dodaj `tokenCount` jako atrybut typu `EInt`.
+     - **Class**: Transition
+       - Dodaj `name` jako atrybut typu `EString`.
+     - **Class**: Arc
+       - Dodaj `weight` jako atrybut typu `EInt`.
+   - Dodaj relacje między klasyfikatorami:
+     - PetriNet zawiera `Place`, `Transition` i `Arc` jako `Reference`.
+     - Arc łączy `Place` z `Transition`.
+
+3. **Zapisz plik .ecore i wygeneruj plik .genmodel:**
+   - Kliknij prawym przyciskiem myszy na plik `.ecore` i wybierz `Create Generator Model`.
+   - Podaj nazwę pliku, np. "PetriNet.genmodel" i kliknij `Next`, a potem `Finish`.
+
+### Zadanie 2
+
+1. **Wygeneruj kod modelu:**
+   - Otwórz plik `.genmodel` i kliknij prawym przyciskiem myszy na korzeń drzewa.
+   - Wybierz `Generate Model Code`, `Generate Edit Code` i `Generate Editor Code`.
+
+2. **Utwórz konfigurację uruchamiania:**
+   - Kliknij prawym przyciskiem myszy na projekt i wybierz `Run As > Run Configurations...`
+   - Utwórz nową konfigurację typu `Eclipse Application`.
+   - W zakładce `Plug-ins` wybierz `Plug-ins selected below` i zaznacz swoją wtyczkę.
+
+3. **Uruchom nową instancję Eclipse:**
+   - Kliknij `Apply`, a następnie `Run`.
+
+4. **Utwórz nowy projekt:**
+   - W nowej instancji Eclipse utwórz nowy projekt typu `General Project`.
+   - Nadaj nazwę, np. "PetriNetInstance".
+
+5. **Włącz perspektywę Modeling:**
+   - Wybierz `Window > Perspective > Open Perspective > Other...` i wybierz `Modeling`.
+
+6. **Utwórz model Sieci Petri:**
+   - Kliknij prawym przyciskiem myszy na nowy projekt i wybierz `New > Example EMF Model Creation Wizard`.
+   - Wybierz swój metamodel PetriNet i utwórz nowy model.
+
+7. **Dodaj elementy do modelu:**
+   - Otwórz utworzony plik `.xmi` w edytorze.
+   - Dodaj odpowiednie elementy zgodnie z rysunkiem w zadaniu 2 (P0, P1, P2, T0, T2, T4 oraz luki łączą
