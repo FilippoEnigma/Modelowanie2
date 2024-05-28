@@ -2,19 +2,21 @@ module PetriNetTransformation;
 
 create OUT : TARGET from IN : SOURCE;
 
+-- Transformacja modelu
 rule Model2Model {
     from
         src : SOURCE!Model
     to
         tgt : TARGET!Model (
             name <- src.name,
-            place <- src.place,
-            transition <- src.transition,
-            arcp2t <- src.arc->select(a | a.P2T),
-            arct2p <- src.arc->select(a | a.T2P)
+            place <- src.place->collect(e | thisModule.Place2Place(e)),
+            transition <- src.transition->collect(e | thisModule.Transition2Transition(e)),
+            arcp2t <- src.arc->select(a | a.P2T)->collect(e | thisModule.Arc2ArcP2T(e)),
+            arct2p <- src.arc->select(a | a.T2P)->collect(e | thisModule.Arc2ArcT2P(e))
         )
 }
 
+-- Transformacja Place
 rule Place2Place {
     from
         src : SOURCE!Place
@@ -25,6 +27,7 @@ rule Place2Place {
         )
 }
 
+-- Transformacja Transition
 rule Transition2Transition {
     from
         src : SOURCE!Transition
@@ -34,6 +37,7 @@ rule Transition2Transition {
         )
 }
 
+-- Transformacja Arc do ArcP2T
 rule Arc2ArcP2T {
     from
         src : SOURCE!Arc (src.P2T = true)
@@ -42,11 +46,12 @@ rule Arc2ArcP2T {
             name <- src.name,
             weight <- src.weight,
             inhibitor <- src.inhibitor,
-            place <- src.source,
-            transition <- src.target
+            place <- thisModule.resolvePlace(src.source),
+            transition <- thisModule.resolveTransition(src.target)
         )
 }
 
+-- Transformacja Arc do ArcT2P
 rule Arc2ArcT2P {
     from
         src : SOURCE!Arc (src.T2P = true)
@@ -54,7 +59,14 @@ rule Arc2ArcT2P {
         tgt : TARGET!ArcT2P (
             name <- src.name,
             weight <- src.weight,
-            place <- src.target,
-            transition <- src.source
+            place <- thisModule.resolvePlace(src.target),
+            transition <- thisModule.resolveTransition(src.source)
         )
 }
+
+-- Pomocnicze funkcje do rozwiązywania referencji
+helper def : resolvePlace(p : SOURCE!Place) : TARGET!Place =
+    TARGET!Place.allInstances()->select(e | e.name = p.name)->first();
+
+helper def : resolveTransition(t : SOURCE!Transition) : TARGET!Transition =
+    TARGET!Transition.allInstances()->select(e | e.name = t.name)->first();
