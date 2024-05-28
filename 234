@@ -8,10 +8,10 @@ rule Model2Model {
     to
         tgt : mMPetriNet!Model (
             name <- src.name,
-            place <- src.place,
-            transition <- src.transition,
-            arcp2t <- src.arc->select(a | a.P2T),
-            arct2p <- src.arc->select(a | a.T2P)
+            place <- src.place->collect(p | thisModule.Place2Place(p)),
+            transition <- src.transition->collect(t | thisModule.Transition2Transition(t)),
+            arcp2t <- src.arc->select(a | a.P2T = true)->collect(a | thisModule.Arc2ArcP2T(a)),
+            arct2p <- src.arc->select(a | a.T2P = true)->collect(a | thisModule.Arc2ArcT2P(a))
         )
 }
 
@@ -21,7 +21,9 @@ rule Place2Place {
     to
         tgt : mMPetriNet!Place (
             name <- src.name,
-            tokens <- src.tokens
+            tokens <- src.tokens,
+            arcp2t <- src.outgoing->select(a | a.P2T = true)->collect(a | thisModule.Arc2ArcP2T(a)),
+            arct2p <- src.incoming->select(a | a.T2P = true)->collect(a | thisModule.Arc2ArcT2P(a))
         )
 }
 
@@ -30,7 +32,9 @@ rule Transition2Transition {
         src : listaElementówSieciPetriego!Transition
     to
         tgt : mMPetriNet!Transition (
-            name <- src.name
+            name <- src.name,
+            arcp2t <- src.incoming->select(a | a.P2T = true)->collect(a | thisModule.Arc2ArcP2T(a)),
+            arct2p <- src.outgoing->select(a | a.T2P = true)->collect(a | thisModule.Arc2ArcT2P(a))
         )
 }
 
