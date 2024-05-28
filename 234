@@ -1,72 +1,60 @@
 module PetriNetTransformation;
 
-create OUT : TARGET from IN : SOURCE;
+create OUT : mMPetriNet from IN : listaElementówSieciPetriego;
 
--- Transformacja modelu
 rule Model2Model {
     from
-        src : SOURCE!Model
+        src : listaElementówSieciPetriego!Model
     to
-        tgt : TARGET!Model (
+        tgt : mMPetriNet!Model (
             name <- src.name,
-            place <- src.place->collect(e | thisModule.Place2Place(e)),
-            transition <- src.transition->collect(e | thisModule.Transition2Transition(e)),
-            arcp2t <- src.arc->select(a | a.P2T)->collect(e | thisModule.Arc2ArcP2T(e)),
-            arct2p <- src.arc->select(a | a.T2P)->collect(e | thisModule.Arc2ArcT2P(e))
+            place <- src.place,
+            transition <- src.transition,
+            arcp2t <- src.arc->select(a | a.P2T),
+            arct2p <- src.arc->select(a | a.T2P)
         )
 }
 
--- Transformacja Place
 rule Place2Place {
     from
-        src : SOURCE!Place
+        src : listaElementówSieciPetriego!Place
     to
-        tgt : TARGET!Place (
+        tgt : mMPetriNet!Place (
             name <- src.name,
             tokens <- src.tokens
         )
 }
 
--- Transformacja Transition
 rule Transition2Transition {
     from
-        src : SOURCE!Transition
+        src : listaElementówSieciPetriego!Transition
     to
-        tgt : TARGET!Transition (
+        tgt : mMPetriNet!Transition (
             name <- src.name
         )
 }
 
--- Transformacja Arc do ArcP2T
 rule Arc2ArcP2T {
     from
-        src : SOURCE!Arc (src.P2T = true)
+        src : listaElementówSieciPetriego!Arc (src.P2T = true)
     to
-        tgt : TARGET!ArcP2T (
+        tgt : mMPetriNet!ArcP2T (
             name <- src.name,
             weight <- src.weight,
             inhibitor <- src.inhibitor,
-            place <- thisModule.resolvePlace(src.source),
-            transition <- thisModule.resolveTransition(src.target)
+            place <- src.source,
+            transition <- src.target
         )
 }
 
--- Transformacja Arc do ArcT2P
 rule Arc2ArcT2P {
     from
-        src : SOURCE!Arc (src.T2P = true)
+        src : listaElementówSieciPetriego!Arc (src.T2P = true)
     to
-        tgt : TARGET!ArcT2P (
+        tgt : mMPetriNet!ArcT2P (
             name <- src.name,
             weight <- src.weight,
-            place <- thisModule.resolvePlace(src.target),
-            transition <- thisModule.resolveTransition(src.source)
+            place <- src.target,
+            transition <- src.source
         )
 }
-
--- Pomocnicze funkcje do rozwiązywania referencji
-helper def : resolvePlace(p : SOURCE!Place) : TARGET!Place =
-    TARGET!Place.allInstances()->select(e | e.name = p.name)->first();
-
-helper def : resolveTransition(t : SOURCE!Transition) : TARGET!Transition =
-    TARGET!Transition.allInstances()->select(e | e.name = t.name)->first();
